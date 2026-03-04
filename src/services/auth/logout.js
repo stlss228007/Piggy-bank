@@ -1,8 +1,8 @@
 import { apiClient } from '../api/client'
 
-export const login = (data) => {
+export const logout = (data) => {
     
-  return apiClient('/auth/login', {
+  return apiClient('/auth/logout', {
     method: 'POST',
     body: JSON.stringify(data),
   })

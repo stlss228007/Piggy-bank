@@ -8,6 +8,7 @@ export const usePiggies = () => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
+
     getAllPiggies()
       .then(data => {
         setPiggies(data)
@@ -17,6 +18,7 @@ export const usePiggies = () => {
         setError(err.message)
         setLoading(false)
       })
+      
   }, [])
   
   return { piggies, loading, error }

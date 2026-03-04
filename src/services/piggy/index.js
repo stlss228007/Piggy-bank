@@ -1,4 +1,5 @@
-export { getAllPiggies } from './getAll'
 export { createPiggy } from './create'
-export { deposit } from './deposit'
-export { withdraw } from './withdraw'
+export { depositMoney } from './deposit'
+export { getAllPiggies } from './getAll'
+export { getPiggyById } from './getById'
+export { updatePiggy } from './update'

@@ -1,9 +1,9 @@
-export const someFunction = (param1, param2) => {
+import { apiClient } from '../api/client'
+
+export const updatePiggy = (id, data) => {
   
-  console.log('someFunction called with:', { param1, param2 })
-  
-  return Promise.resolve({
-    success: true,
-    data: {}
+  return apiClient(`/piggies/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
   })
 }

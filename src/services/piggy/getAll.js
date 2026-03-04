@@ -1,29 +1,45 @@
-/*import { apiClient } from '../api/client'
+/*
+import { apiClient } from '../api/client'
 
-export const getAllPiggies = () => {
-  return apiClient('/piggy')
-}*/
+export const getAllPiggies = (searchTerm = '') => {
+    const query = searchTerm ? `?title=${encodeURIComponent(searchTerm)}` : ''
+    return apiClient(`/piggies${query}`)
+}
+*/
 
-// services/piggy/getAll.js
-export const getAllPiggies = () => {
-  return Promise.resolve([
-    { 
-      id: 1, 
-      title: 'Смерть в нищете', 
-      current: 950000, 
-      target: 1000000 
-    },
-    { 
-      id: 2, 
-      title: 'RTX -1 Ti', 
-      current: 44444, 
-      target: 999000 
-    },
-    { 
-      id: 3, 
-      title: 'Новый MacBook', 
-      current: 250000, 
-      target: 300000 
-    }
-  ])
+export const getAllPiggies = (searchTerm = '') => {
+  
+    const allPiggies = [
+        { 
+            id: '1', 
+            title: 'Смерть в нищете', 
+            amount: 1000000,
+            accumulated: 950000
+        },
+        { 
+            id: '2', 
+            title: 'RTX -1 Ti', 
+            amount: 999000,
+            accumulated: 44444
+        },
+        { 
+            id: '3', 
+            title: 'Новый MacBook', 
+            amount: 300000,
+            accumulated: 250000
+        }
+    ]
+
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            if (searchTerm) {
+                const filtered = allPiggies.filter(piggy =>
+                    piggy.title.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+                resolve(filtered)
+            } else {
+                resolve(allPiggies)
+            }
+        }, 500)
+    })
 }

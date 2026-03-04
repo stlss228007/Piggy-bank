@@ -8,8 +8,10 @@ function Layout({ children }) {
 
   return (
     <div className="layout">
+
       <header className="header">
         <div className="header-content">
+          
           <h1 className="logo">PiggySave</h1>
           
           <div className="profile-menu">
@@ -36,6 +38,7 @@ function Layout({ children }) {
       <main className="main-content">
         {children}
       </main>
+
     </div>
   )
 }

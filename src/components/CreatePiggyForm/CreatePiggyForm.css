@@ -1,0 +1,129 @@
+.create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-input {
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.form-input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.form-input.error {
+    border-color: #e74c3c;
+}
+
+.form-input:disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.form-error {
+    background: #fee;
+    color: #e74c3c;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.form-button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.form-button.cancel {
+    background: #f5f5f5;
+    color: #666;
+}
+
+.form-button.cancel:hover:not(:disabled) {
+    background: #e0e0e0;
+}
+
+.form-button.submit {
+    background: #4CAF50;
+    color: white;
+}
+
+.form-button.submit:hover:not(:disabled) {
+    background: #388E3C;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+}
+
+.form-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.form-image {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.form-image img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
