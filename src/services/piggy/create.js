@@ -1,19 +1,14 @@
-/*
 import { apiClient } from '../api/client'
+import { API } from '../../config/endpoints'
 
-export const createPiggy = (data) => {
+// export const createPiggy = (data) => {
+//     return apiClient(API.PIGGIES.BASE, {
+//         method: 'POST',
+//         body: JSON.stringify(data)
+//     })
+// }
 
-  return apiClient('/piggies', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
-}
-*/
-
- export const createPiggy = (data) => {
-    
-    console.log('Создание копилки:', data)
-    
+export const createPiggy = (data) => {    
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve({

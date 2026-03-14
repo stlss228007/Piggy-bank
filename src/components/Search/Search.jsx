@@ -1,32 +1,20 @@
 import { memo } from 'react'
+import Input from '../Input/Input'
 import './Search.css'
 
-function Search({ value, onChange, placeholder, inputRef }) {
-    
-    console.log('Search рендерится')
-    
+const Search = memo(({ value, onChange, placeholder, inputRef }) => {
     return (
         <div className="search-wrapper">
-            <input
+            <Input
                 ref={inputRef}
-                type="text"
-                placeholder={placeholder}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
+                placeholder={placeholder}
+                icon="🔍"
                 className="search-input"
-                id="search-input"
             />
-            <label htmlFor="search-input" className="search-icon">🔍</label>
         </div>
     )
-}
+})
 
-function areEqual(prevProps, nextProps) {
-    return (
-        prevProps.value === nextProps.value &&
-        prevProps.placeholder === nextProps.placeholder &&
-        prevProps.inputRef === nextProps.inputRef
-    )
-}
-
-export default memo(Search, areEqual)
+export default Search

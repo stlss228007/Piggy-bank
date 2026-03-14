@@ -1,16 +1,175 @@
-# React + Vite
+# PiggySave 🐷
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Приложение для учёта финансовых целей (копилок). Позволяет создавать цели, отслеживать прогресс и пополнять их. Разработано в рамках подготовки к олимпиаде по веб-разработке.
 
-Currently, two official plugins are available:
+## 📋 Содержание
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* [Описание](#описание)
+* [Технологии](#технологии)
+* [Структура проекта](#структура-проекта)
+* [Установка и запуск](#установка-и-запуск)
+* [Функционал](#функционал)
+* [Планы по доработке](#планы-по-доработке)
+* [Команда](#команда)
 
-## React Compiler
+## 📝 Описание
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+PiggySave — это удобный инструмент для отслеживания накоплений. Пользователь может создавать неограниченное количество копилок, устанавливать цели и регулярно пополнять их. Визуальный прогресс-бар показывает, насколько близка цель.
 
-## Expanding the ESLint configuration
+Проект разрабатывается командой из трёх человек:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* **Фронтенд** (React) — отвечает за интерфейс и взаимодействие с пользователем
+* **Бэкенд** (Go) — обрабатывает запросы и хранит данные
+* **Архитектура** — помогает с организацией кода и ревью
+
+## 🛠 Технологии
+
+### Frontend
+
+* **React 18** — библиотека для построения интерфейсов
+* **Vite** — сборщик проекта (быстрее, чем Create React App)
+* **CSS-модули** — для изоляции стилей компонентов
+* **React Hooks** — управление состоянием и побочными эффектами
+* **createPortal** — для модальных окон
+
+### Планируемые
+
+* **React Router** — для навигации (когда появится авторизация)
+* **Zustand/Context** — для глобального состояния
+
+## 📁 Структура проекта
+
+src/
+├── assets/ # Изображения, шрифты
+├── components/ # Переиспользуемые компоненты
+│ ├── Button/ # Универсальная кнопка
+│ ├── Input/ # Универсальное поле ввода
+│ ├── Card/ # Карточка копилки
+│ ├── Modal/ # Модальное окно (createPortal)
+│ ├── Search/ # Поле поиска
+│ └── Layout/ # Общий макет (хэдер, меню)
+├── config/ # Конфигурация
+│ ├── index.js # Базовый URL API
+│ └── endpoints.js # Все эндпоинты приложения
+├── hooks/ # Кастомные хуки
+│ ├── useAsync.js # Универсальный хук для запросов
+│ └── usePiggies.js # Логика работы с копилками
+├── pages/ # Страницы
+│ ├── Auth/ # Авторизация (в разработке)
+│ └── Main/ # Главная страница
+│ ├── components/ # Локальные компоненты
+│ │ ├── DashboardHeader.jsx
+│ │ ├── PiggyGridWithState.jsx
+│ │ └── CreatePiggyModal.jsx
+│ ├── Dashboard.jsx
+│ └── Main.css
+├── services/ # Работа с API
+│ ├── api/
+│ │ └── client.js # Базовый клиент для запросов
+│ └── piggy/ # Эндпоинты для копилок
+│ ├── getAll.js
+│ ├── create.js
+│ ├── deposit.js
+│ └── index.js
+└── main.jsx # Точка входа
+
+## 🚀 Установка и запуск
+
+### Предварительные требования
+
+* Node.js (версия 18 или выше)
+* npm (или yarn)
+
+Установка
+
+bash
+
+# Клонировать репозиторий
+
+git clone https://github.com/stlss228007/PiggySave.git
+
+# Перейти в папку проекта
+
+cd PiggySave
+
+# Установить зависимости
+
+npm install
+
+Запуск
+
+bash
+
+# Режим разработки
+
+npm run dev
+
+# Сборка для продакшена
+
+npm run build
+
+# Предпросмотр собранного проекта
+
+npm run preview
+
+✨ Функционал
+Реализовано
+✅ Просмотр списка копилок — карточки с названием, суммой и прогрессом
+
+✅ Поиск по копилкам — с debounce и индикатором загрузки
+
+✅ Создание новой копилки — модальное окно с валидацией
+
+✅ Пополнение копилки — поле ввода + кнопка + отправка по Enter
+
+✅ Прогресс-бар — визуальное отображение прогресса
+
+✅ Динамическое обновление — после внесения сумма меняется без перезагрузки
+
+✅ Адаптивный дизайн — корректное отображение на разных экранах
+
+✅ Обработка ошибок — валидация полей, сообщения об ошибках
+
+В разработке
+🔄 Авторизация (регистрация, вход, выход)
+
+🔄 Редактирование копилки
+
+🔄 Удаление копилки
+
+🔄 История операций
+
+🔮 Планы по доработке
+Подключение реального бэкенда (замена моков)
+
+Авторизация и защита маршрутов
+
+Личный кабинет пользователя
+
+История транзакций
+
+Сортировка карточек по дате/прогрессу
+
+Тестирование (Jest, React Testing Library)
+
+👥 Команда
+Артём Артёмов — архитектор, код-ревью
+
+GitHub: @triple-a
+
+Помогает с организацией кода, оптимизацией, ревью, бэкендер. Мужик с большим бом-бомом
+
+Вадим Володин — фронтенд-разработчик
+
+GitHub: @stlss228007
+
+Отвечает за интерфейс, компоненты, часть с карточками и нормальную игру в танки
+
+Журжин Артём - фронтенд-разработчик
+
+GitHub: не, не слышал
+
+Отвечает за интерфейс, страницу авторизации и входа, базар. Дедлайны его боятся
+
+Проект создан в учебных целях. Если у вас есть вопросы или предложения — создавайте Issue в репозитории! 🚀
+

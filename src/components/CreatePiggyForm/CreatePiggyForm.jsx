@@ -1,15 +1,15 @@
 import { useState } from 'react'
+import { useAsync } from '../../hooks/useAsync'
+import Input from '../Input/Input'
+import Button from '../Button/Button'
 import './CreatePiggyForm.css'
 
 function CreatePiggyForm({ onSubmit, onCancel }) {
-    
     const [title, setTitle] = useState('')
     const [amount, setAmount] = useState('')
     const [errors, setErrors] = useState({})
-    const [isLoading, setIsLoading] = useState(false)
 
     const validate = () => {
-
         const newErrors = {}
         
         if (!title.trim()) {
@@ -28,101 +28,82 @@ function CreatePiggyForm({ onSubmit, onCancel }) {
         return Object.keys(newErrors).length === 0
     }
 
-    const handleSubmit = async (e) => {
+    const { 
+        execute: submitForm, 
+        loading 
+    } = useAsync(onSubmit)
 
+    const handleSubmit = async (e) => {
         e.preventDefault()
         
         if (!validate()) return
         
-        setIsLoading(true)
         try {
-            await onSubmit({
+            await submitForm({
                 title: title.trim(),
                 amount: Number(amount)
             })
             setTitle('')
             setAmount('')
+            onCancel()
         } catch (error) {
-            setErrors({ form: error.message })
-        } finally {
-            setIsLoading(false)
+            setErrors({ form: error.message || 'Ошибка при создании' })
         }
-
     }
 
     return (
         <form className="create-form" onSubmit={handleSubmit}>
-
             <p className="form-subtitle">
                 Начните откладывать на мечту прямо сейчас
             </p>
 
-            <div className="form-group">
+            <Input
+                label="Название копилки"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Напр. Отпуск в Исландии"
+                error={errors.title}
+                maxLength={35}
+                disabled={loading}
+                required
+            />
 
-                <label className="form-label">
-                    Название копилки
-                </label>
-
-                <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Напр. Отпуск в Исландии"
-                    className={`form-input ${errors.title ? 'error' : ''}`}
-                    maxLength={35}
-                    disabled={isLoading}
-                />
-                {errors.title && (
-                    <div className="error-message">{errors.title}</div>
-                )}
-
-            </div>
-
-            <div className="form-group">
-
-                <label className="form-label">
-                    Сумма цели (₽)
-                </label>
-
-                <input
-                    type="number"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    placeholder="150 000"
-                    className={`form-input ${errors.amount ? 'error' : ''}`}
-                    min="1"
-                    step="1"
-                    disabled={isLoading}
-                />
-                {errors.amount && (
-                    <div className="error-message">{errors.amount}</div>
-                )}
-
-            </div>
+            <Input
+                label="Сумма цели (₽)"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="150 000"
+                error={errors.amount}
+                min="1"
+                step="1"
+                disabled={loading}
+                required
+            />
 
             {errors.form && (
                 <div className="form-error">{errors.form}</div>
             )}
 
             <div className="form-actions">
-
-                <button 
-                    type="button" 
-                    className="form-button cancel"
+                <Button
+                    type="button"
+                    variant="secondary"
                     onClick={onCancel}
-                    disabled={isLoading}
+                    disabled={loading}
+                    fullWidth
                 >
                     Отмена
-                </button>
-
-                <button 
-                    type="submit" 
-                    className="form-button submit"
-                    disabled={isLoading}
+                </Button>
+                <Button
+                    type="submit"
+                    variant="primary"
+                    disabled={loading}
+                    loading={loading}
+                    fullWidth
                 >
-                    {isLoading ? 'Создание...' : 'Создать'}
-                </button>
-                
+                    Создать
+                </Button>
             </div>
         </form>
     )

@@ -1,43 +1,41 @@
 import { memo, useState } from 'react'
 import { depositMoney } from '../../services/piggy'
+import { useAsync } from '../../hooks/useAsync'
+import Input from '../Input/Input'
+import Button from '../Button/Button'
 import './Card.css'
 
 function Card({ id, title, amount, accumulated, onUpdate }) {
-
     const [depositAmount, setDepositAmount] = useState('')
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState('')
+    const [localError, setLocalError] = useState('')
     
     const progress = Math.round((accumulated / amount) * 100)
     const remaining = amount - accumulated
 
+    const { 
+        execute: makeDeposit, 
+        loading 
+    } = useAsync((amount) => depositMoney(id, amount))
+
     const handleDeposit = async () => {
-        
         const numAmount = Number(depositAmount)
-
+        
         if (!depositAmount || numAmount <= 0) {
-            setError('Введите сумму больше 0')
+            setLocalError('Введите сумму больше 0')
             return
         }
-
         if (numAmount > remaining) {
-            setError(`Максимум: ${remaining.toLocaleString()} ₽`)
+            setLocalError(`Максимум: ${remaining.toLocaleString()} ₽`)
             return
         }
-
-        setIsLoading(true)
-        setError('')
 
         try {
-            await depositMoney(id, numAmount)
+            await makeDeposit(numAmount)
             setDepositAmount('')
-            if (onUpdate) {
-                onUpdate(id, numAmount)
-            }
+            setLocalError('')
+            onUpdate(id, numAmount)
         } catch (err) {
-            setError(err.message || 'Ошибка при внесении')
-        } finally {
-            setIsLoading(false)
+            setLocalError(err.message || 'Ошибка при внесении')
         }
     }
 
@@ -49,28 +47,23 @@ function Card({ id, title, amount, accumulated, onUpdate }) {
     }
 
     return (
-
         <div className="card">
-
             <div className="card-label">ЦЕЛЬ НАКОПЛЕНИЯ</div>
             <h3 className="card-title">{title}</h3>
             
             <div className="amounts-row">
-
                 <div className="amount-block">
                     <span className="amount-label">Накоплено</span>
                     <span className="current-amount">
                         {accumulated.toLocaleString()} ₽
                     </span>
                 </div>
-
                 <div className="amount-block">
                     <span className="amount-label">Из суммы</span>
                     <span className="target-amount">
                         {amount.toLocaleString()} ₽
                     </span>
                 </div>
-
             </div>
 
             <div className="progress-wrapper">
@@ -91,29 +84,25 @@ function Card({ id, title, amount, accumulated, onUpdate }) {
 
             <div className="deposit-section">
                 <div className="deposit-input-group">
-
-                    <input 
+                    <Input
                         type="number"
                         value={depositAmount}
-                        onChange={(e) => setDepositAmount(e.target.value)}
+                        onChange={(e) => setDepositAmount(e.target.valueAsNumber)}
                         onKeyDown={handleKeyDown}
                         placeholder="Сумма..."
                         min="1"
                         max={remaining}
-                        className="deposit-input"
-                        disabled={isLoading}
+                        disabled={loading}
+                        error={localError}
                     />
-
-                    <button 
-                        className="deposit-button"
+                    <Button
                         onClick={handleDeposit}
-                        disabled={isLoading || !depositAmount}
+                        disabled={loading || !depositAmount}
+                        loading={loading}
                     >
-                        {isLoading ? '...' : 'Внести'}
-                    </button>
-
+                        Внести
+                    </Button>
                 </div>
-                {error && <div className="deposit-error">{error}</div>}
             </div>
         </div>
     )

@@ -1,12 +1,11 @@
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import './Modal.css'
 
 function Modal({ isOpen, onClose, title, children, image }) {
-
     const modalRef = useRef(null)
 
     useEffect(() => {
-
         const handleEscape = (e) => {
             if (e.key === 'Escape') onClose()
         }
@@ -20,7 +19,6 @@ function Modal({ isOpen, onClose, title, children, image }) {
             document.removeEventListener('keydown', handleEscape)
             document.body.style.overflow = 'unset'
         }
-        
     }, [isOpen, onClose])
 
     const handleBackdropClick = (e) => {
@@ -31,7 +29,7 @@ function Modal({ isOpen, onClose, title, children, image }) {
 
     if (!isOpen) return null
 
-    return (
+    return createPortal(
         <div 
             className="modal-overlay" 
             ref={modalRef}
@@ -52,7 +50,8 @@ function Modal({ isOpen, onClose, title, children, image }) {
                     {children}
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     )
 }
 
